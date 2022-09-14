@@ -20,7 +20,7 @@ document.getElementById("current-1").textContent = 0;
 var diceDom = document.querySelector(".dice");
 diceDom.style.display = "none";
 
-// EventListener for rolling the dice
+// addEventListener for ROLL DICE button
 document.querySelector(".btn-roll").addEventListener("click", function () {
   // Randomise the dice numbers between 1 - 6
   var diceNumber = Math.floor(Math.random() * 6) + 1;
@@ -38,25 +38,58 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
     document.getElementById("current-" + activePlayer).textContent = roundScore;
   } else {
     // Rolled dice number 1, switch the player's turn
-
-    // Make the player's score back to 0
-    document.getElementById("current-" + activePlayer).textContent = 0;
-
-    // Switch the player's turn
-    // When the active player is 0 make it 1, or else make it 0
-    activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
-
-    // if (activePlayer === 0) {
-    //   activePlayer = 1;
-    // } else {
-    //   activePlayer = 0
-    // }
-
-    // Switch the red dot to the other player
-    document.querySelector(".player-0-panel").classList.toggle("active");
-    document.querySelector(".player-1-panel").classList.toggle("active");
-
-    // Temporary disappear the dice
-    diceDom.style.display = "none";
+    switchToNextPlayer();
   }
 });
+
+// addEventListener for HOLD button
+document.querySelector(".btn-hold").addEventListener("click", function () {
+  // Add saved scores to the global number
+
+  // if (activePlayer === 0) {
+  //   score[0] = score[0] + roundScore;
+  // } else {
+  //   score[1] = score[1] + roundScore;
+  // }
+
+  score[activePlayer] = score[activePlayer] + roundScore;
+
+  // Change the score number on the browser
+  document.getElementById("score-" + activePlayer).textContent =
+    score[activePlayer];
+
+  // Test whether the player won the game (score higher than 100)
+  if (score[activePlayer] >= 100) {
+    // Change the Player's name to Winner!!!
+    document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.add("winner");
+  } else {
+    // Switch the player's turn
+    switchToNextPlayer();
+  }
+});
+
+// This function switches player's turn
+function switchToNextPlayer() {
+  // Make the player's score back to 0
+  roundScore = 0;
+  document.getElementById("current-" + activePlayer).textContent = 0;
+  activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
+
+  // if (activePlayer === 0) {
+  //   activePlayer = 1;
+  // } else {
+  //   activePlayer = 0
+  // }
+
+  // Switch the red dot to the other player
+  document.querySelector(".player-0-panel").classList.toggle("active");
+  document.querySelector(".player-1-panel").classList.toggle("active");
+
+  // Temporary disappear the dice
+  diceDom.style.display = "none";
+}
+
+// addEventListener for NEW GAME button
