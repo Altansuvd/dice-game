@@ -99,7 +99,7 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
       score[activePlayer];
 
     // Test whether the player won the game (score higher than 100)
-    if (score[activePlayer] >= 10) {
+    if (score[activePlayer] >= 100) {
       // Game over
       isNewGame = false;
 
